@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import codecs
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
@@ -23,6 +24,17 @@ def ipn(request, item_check_callable=None):
     flag = None
     ipn_obj = None
     
+    #set the encoding of the request, so that request.POST can be correctly decoded.
+    #see https://github.com/johnboxall/django-paypal/issues/32
+    #https://code.djangoproject.com/ticket/14035, worth noting, but this doesn't 
+    # affect this ipn view as there won't be uploaded files.
+    encoding = request.POST.get('charset', '')
+    try:
+        codecs.getdecoder(encoding) # check if the codec exists
+        request.encoding = encoding
+    except:
+        pass
+
     # Clean up the data as PayPal sends some weird values such as "N/A"
     data = request.POST.copy()
     date_fields = ('time_created', 'payment_date', 'next_payment_date',
