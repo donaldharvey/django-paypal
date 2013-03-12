@@ -105,13 +105,24 @@ class PayPalPaymentsForm(forms.Form):
     <input type="image" src="%s" border="0" name="submit" alt="Buy it Now" />
 </form>""" % (POSTBACK_ENDPOINT, self.as_p(), self.get_image()))
         
+    def render_iframe():
+        return mark_safe(u"""<form action="%s" method="post" target="_parent">
+    %s
+    <input type="image" src="%s" border="0" name="submit" alt="Buy it Now" />
+</form>""" % (POSTBACK_ENDPOINT, self.as_p(), self.get_image()))
         
     def sandbox(self):
         return mark_safe(u"""<form action="%s" method="post">
     %s
     <input type="image" src="%s" border="0" name="submit" alt="Buy it Now" />
 </form>""" % (SANDBOX_POSTBACK_ENDPOINT, self.as_p(), self.get_image()))
-        
+            
+    def sandbox_iframe(self):
+        return mark_safe(u"""<form action="%s" method="post" target="_parent">
+    %s
+    <input type="image" src="%s" border="0" name="submit" alt="Buy it Now" />
+</form>""" % (SANDBOX_POSTBACK_ENDPOINT, self.as_p(), self.get_image()))
+            
     def get_image(self):
         return {
             (True, self.SUBSCRIBE): SUBSCRIPTION_SANDBOX_IMAGE,
