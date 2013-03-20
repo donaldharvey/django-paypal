@@ -105,7 +105,7 @@ class PayPalPaymentsForm(forms.Form):
     <input type="image" src="%s" border="0" name="submit" alt="Buy it Now" />
 </form>""" % (POSTBACK_ENDPOINT, self.as_p(), self.get_image()))
         
-    def render_iframe():
+    def render_iframe(self):
         return mark_safe(u"""<form action="%s" method="post" target="_parent">
     %s
     <input type="image" src="%s" border="0" name="submit" alt="Buy it Now" />
