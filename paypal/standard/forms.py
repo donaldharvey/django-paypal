@@ -54,6 +54,9 @@ class PayPalPaymentsForm(forms.Form):
     # Where the money goes.
     business = forms.CharField(widget=ValueHiddenInput(), initial=RECEIVER_EMAIL)
     
+    # Payment action
+    paymentaction = forms.CharField(widget=ValueHiddenInput(), initial='sale')
+    
     # Item information.
     amount = forms.IntegerField(widget=ValueHiddenInput())
     item_name = forms.CharField(widget=ValueHiddenInput())
